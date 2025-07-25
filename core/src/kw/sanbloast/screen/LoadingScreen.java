@@ -23,8 +23,8 @@ import kw.sanbloast.group.SandActor;
  * Date on 2025/7/24.
  */
 public class LoadingScreen extends BaseScreen {
-    private int width = 350;
-    private int height = 700;
+    private int width = 100;
+    private int height = 900;
     private int[][] grid;
     public LoadingScreen(BaseGame game) {
         super(game);
@@ -68,7 +68,7 @@ public class LoadingScreen extends BaseScreen {
 
     public void checkMove(Array<SandActor> actors, Runnable runnable){
         boolean move = false;
-        for (int i = 0; i < 1; i++) {
+
 
             for (SandActor actor : actors) {
                 int posx = actor.getPosx();
@@ -139,12 +139,13 @@ public class LoadingScreen extends BaseScreen {
                     }
                 }
             }
-        }
+
         if (move){
-            stage.addAction(Actions.delay(0.05f,Actions.run(()->{
+            Gdx.app.postRunnable(()->{
+
                 checkMove(actors,runnable);
 
-            })));
+            });
         }else {
             runnable.run();
         }
@@ -173,6 +174,8 @@ public class LoadingScreen extends BaseScreen {
                 row();
             }
             pack();
+            setPosition(Constant.GAMEWIDTH/2f,Constant.GAMEHIGHT/2,Align.center);
+
         }});
     }
 }

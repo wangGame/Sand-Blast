@@ -53,11 +53,12 @@ public class SandActor extends Group {
         updatePosition(false);
     }
     public void updatePosition(boolean isl){
-        if (isl) {
-            setPosition(posx * SBConstant.blockSize, posy * SBConstant.blockSize, Align.center);
-        }else {
-            addAction(Actions.moveToAligned(posx*SBConstant.blockSize,posy*SBConstant.blockSize,Align.center,0.1f));
-        }
+//        if (isl) {
+//            setPosition(posx * SBConstant.blockSize, posy * SBConstant.blockSize, Align.center);
+//        }else {
+//            addAction(Actions.moveToAligned(posx*SBConstant.blockSize,posy*SBConstant.blockSize,Align.center,0.1f));
+//        }
+        setPosition(posx * SBConstant.blockSize, posy * SBConstant.blockSize, Align.center);
         setNameP("pos"+posx+"-"+posy);
     }
 
