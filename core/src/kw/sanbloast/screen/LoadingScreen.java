@@ -38,7 +38,7 @@ public class LoadingScreen extends BaseScreen {
                 for (int j = 0; j < 3; j++) {
                     for (int i = 0; i < 10; i++) {
                         SandActor actor = new SandActor();
-                        actor.setPosition(x + i * 20, y+j*20, Align.center);
+                        actor.setPosition(x + i * 20+j*40, y+j*20, Align.center);
                         actor.getUpPos();
                         addActor(actor);
                         actors.add(actor);
