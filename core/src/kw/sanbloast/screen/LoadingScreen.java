@@ -35,14 +35,15 @@ public class LoadingScreen extends BaseScreen {
                 super.clicked(event, x, y);
                 Array<SandActor> actors = new Array<>();
                 Color random = ColorUtils.random();
-                for (int i = 0; i < 10; i++) {
-                    SandActor actor = new SandActor();
-                    int v = (int) (Math.random() * 10) - 5;
-                    actor.setPosition(x+i*20,y, Align.center);
-                    actor.getUpPos();
-                    addActor(actor);
-                    actors.add(actor);
-                    actor.setColorImg(random);
+                for (int j = 0; j < 3; j++) {
+                    for (int i = 0; i < 10; i++) {
+                        SandActor actor = new SandActor();
+                        actor.setPosition(x + i * 20, y+j*20, Align.center);
+                        actor.getUpPos();
+                        addActor(actor);
+                        actors.add(actor);
+                        actor.setColorImg(random);
+                    }
                 }
 
                 checkMove(actors, new Runnable() {
