@@ -1,5 +1,6 @@
 package kw.sanbloast.screen;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -14,6 +15,7 @@ import com.kw.gdx.listener.OrdinaryButtonListener;
 import com.kw.gdx.screen.BaseScreen;
 
 import kw.sanbloast.constant.ColorUtils;
+import kw.sanbloast.constant.SBConstant;
 import kw.sanbloast.group.SandActor;
 
 /**
@@ -21,8 +23,8 @@ import kw.sanbloast.group.SandActor;
  * Date on 2025/7/24.
  */
 public class LoadingScreen extends BaseScreen {
-    private int width = 35;
-    private int height = 70;
+    private int width = 350;
+    private int height = 700;
     private int[][] grid;
     public LoadingScreen(BaseGame game) {
         super(game);
@@ -35,10 +37,10 @@ public class LoadingScreen extends BaseScreen {
                 super.clicked(event, x, y);
                 Array<SandActor> actors = new Array<>();
                 Color random = ColorUtils.random();
-                for (int j = 0; j < 3; j++) {
+                for (int j = 0; j < 15; j++) {
                     for (int i = 0; i < 10; i++) {
                         SandActor actor = new SandActor();
-                        actor.setPosition(x + i * 20+j*40, y+j*20, Align.center);
+                        actor.setPosition(x + i * SBConstant.blockSize+0*SBConstant.blockSize * 2, y+j*SBConstant.blockSize, Align.center);
                         actor.getUpPos();
                         addActor(actor);
                         actors.add(actor);
@@ -66,35 +68,67 @@ public class LoadingScreen extends BaseScreen {
 
     public void checkMove(Array<SandActor> actors, Runnable runnable){
         boolean move = false;
-        for (SandActor actor : actors) {
-            int posx = actor.getPosx();
-            int posy = actor.getPosy();
-            if (posy - 1 > 0) {
-                if (grid[posy - 1][posx] == 0) {
-                    grid[posy][posx] = 0;
-                    grid[posy - 1][posx] = 1;
-                    actor.setPosy(posy - 1);
-                    actor.updatePosition();
-                    move = true;
-                } else {
-                    boolean left = false;
-                    boolean right = false;
-                    if (posx - 1 >= 0 && grid[posy - 1][posx - 1] == 0) {
-                        left = true;
-                    }
-                    if (posx + 1 < grid[0].length && grid[posy - 1][posx + 1] == 0) {
-                        right = true;
-                    }
+        for (int i = 0; i < 1; i++) {
 
-                    if (left && right) {
-                        if (Math.random() >= 0.5) {
+            for (SandActor actor : actors) {
+                int posx = actor.getPosx();
+                int posy = actor.getPosy();
+                if (posy - 1 > 0) {
+                    if (grid[posy - 1][posx] == 0) {
+                        grid[posy][posx] = 0;
+                        grid[posy - 1][posx] = 1;
+                        actor.setPosy(posy - 1);
+                        actor.updatePosition();
+                        move = true;
+                    } else {
+
+//
+//                        // 情况2：尝试向下推顶
+//                        SandActor belowActor = findActorAt( actors,posx, posy - 1);
+//                        if (belowActor != null && posy + 1 < grid.length && grid[posy + 1][posx] == 0) {
+//                            // 向上顶起下面的沙子
+//                            grid[posy - 1][posx] = 0;
+//                            grid[posy][posx] = 1;
+//                            belowActor.setPosy(posy);
+//                            belowActor.updatePosition();
+//                            move = true;
+//                            continue; // 本轮 actor 不动，下轮再动
+//                        }
+
+
+                        boolean left = false;
+                        boolean right = false;
+                        if (posx - 1 >= 0 && grid[posy - 1][posx - 1] == 0) {
+                            left = true;
+                        }
+                        if (posx + 1 < grid[0].length && grid[posy - 1][posx + 1] == 0) {
+                            right = true;
+                        }
+
+                        if (left && right) {
+                            if (Math.random() >= 0.5) {
+                                grid[posy][posx] = 0;
+                                grid[posy - 1][posx - 1] = 1;
+                                actor.setPosy(posy - 1);
+                                actor.setPosx(posx - 1);
+                                actor.updatePosition();
+                                move = true;
+                            } else {
+                                grid[posy][posx] = 0;
+                                grid[posy - 1][posx + 1] = 1;
+                                actor.setPosy(posy - 1);
+                                actor.setPosx(posx + 1);
+                                actor.updatePosition();
+                                move = true;
+                            }
+                        } else if (left) {
                             grid[posy][posx] = 0;
                             grid[posy - 1][posx - 1] = 1;
                             actor.setPosy(posy - 1);
                             actor.setPosx(posx - 1);
                             actor.updatePosition();
                             move = true;
-                        } else {
+                        } else if (right) {
                             grid[posy][posx] = 0;
                             grid[posy - 1][posx + 1] = 1;
                             actor.setPosy(posy - 1);
@@ -102,31 +136,29 @@ public class LoadingScreen extends BaseScreen {
                             actor.updatePosition();
                             move = true;
                         }
-                    } else if (left) {
-                        grid[posy][posx] = 0;
-                        grid[posy - 1][posx - 1] = 1;
-                        actor.setPosy(posy - 1);
-                        actor.setPosx(posx - 1);
-                        actor.updatePosition();
-                        move = true;
-                    } else if (right) {
-                        grid[posy][posx] = 0;
-                        grid[posy - 1][posx + 1] = 1;
-                        actor.setPosy(posy - 1);
-                        actor.setPosx(posx + 1);
-                        actor.updatePosition();
-                        move = true;
                     }
                 }
             }
         }
         if (move){
-            stage.addAction(Actions.delay(0.033f,Actions.run(()->{
+            stage.addAction(Actions.delay(0.05f,Actions.run(()->{
                 checkMove(actors,runnable);
+
             })));
         }else {
             runnable.run();
         }
+    }
+
+    public SandActor findActorAt(Array<SandActor> actors,int pox,int poy){
+        Array<SandActor> array = new Array<>(actors);
+        for (SandActor actor : array) {
+//            setName("pos"+posx+"-"+posy);
+            if (actor.getNameP().equals("pos"+pox+"-"+poy)) {
+                return actor;
+            }
+        }
+        return null;
     }
 
     public void createBoard(){
@@ -135,8 +167,7 @@ public class LoadingScreen extends BaseScreen {
             for (int[] ints : grid) {
                 for (int anInt : ints) {
                     Actor actor = new Actor();
-                    actor.setSize(20,20);
-                    actor.setDebug(true);
+                    actor.setSize(SBConstant.blockSize,SBConstant.blockSize);
                     add(actor);
                 }
                 row();

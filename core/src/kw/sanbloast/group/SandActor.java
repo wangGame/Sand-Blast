@@ -10,6 +10,7 @@ import com.kw.gdx.asset.Asset;
 
 import kw.sanbloast.SandBlost;
 import kw.sanbloast.constant.ColorUtils;
+import kw.sanbloast.constant.SBConstant;
 
 /**
  * Author by tony
@@ -19,17 +20,17 @@ public class SandActor extends Group {
     private int posx;
     private int posy;
     private Image image;
+    private String nameP;
     public SandActor(){
-        setSize(20,20);
-        setDebug(true);
-        image = new Image(Asset.getAsset().getTexture("white_chess.png"));
+        setSize(SBConstant.blockSize,SBConstant.blockSize);
+        image = new Image(Asset.getAsset().getTexture("white.png"));
         addActor(image);
-        image.setSize(20,20);
+        image.setSize(SBConstant.blockSize,SBConstant.blockSize);
     }
 
     public void getUpPos() {
-        posx = (int) getX(Align.center)/20;
-        posy = (int) getY(Align.center)/20;
+        posx = (int) getX(Align.center)/ SBConstant.blockSize;
+        posy = (int) getY(Align.center)/SBConstant.blockSize;
     }
 
     public int getPosx() {
@@ -53,13 +54,22 @@ public class SandActor extends Group {
     }
     public void updatePosition(boolean isl){
         if (isl) {
-            setPosition(posx * 20, posy * 20, Align.center);
+            setPosition(posx * SBConstant.blockSize, posy * SBConstant.blockSize, Align.center);
         }else {
-            addAction(Actions.moveToAligned(posx*20,posy*20,Align.center,0.1f));
+            addAction(Actions.moveToAligned(posx*SBConstant.blockSize,posy*SBConstant.blockSize,Align.center,0.1f));
         }
+        setNameP("pos"+posx+"-"+posy);
     }
 
     public void setColorImg(Color random) {
         image.setColor(random);
+    }
+
+    public String getNameP() {
+        return nameP;
+    }
+
+    public void setNameP(String nameP) {
+        this.nameP = nameP;
     }
 }
