@@ -29,8 +29,8 @@ public class SandActor extends Group {
     }
 
     public void getUpPos() {
-        posx = (int) getX(Align.center)/ SBConstant.blockSize;
-        posy = (int) getY(Align.center)/SBConstant.blockSize;
+        posx = (int) getX()/ SBConstant.blockSize;
+        posy = (int) getY()/SBConstant.blockSize;
     }
 
     public int getPosx() {
@@ -58,8 +58,8 @@ public class SandActor extends Group {
 //        }else {
 //            addAction(Actions.moveToAligned(posx*SBConstant.blockSize,posy*SBConstant.blockSize,Align.center,0.1f));
 //        }
-        setPosition(posx * SBConstant.blockSize, posy * SBConstant.blockSize, Align.center);
-        setNameP("pos"+posx+"-"+posy);
+        setPosition(posx * SBConstant.blockSize, posy * SBConstant.blockSize);
+        setName("pos"+posx+"-"+posy);
     }
 
     public void setColorImg(Color random) {
@@ -72,5 +72,12 @@ public class SandActor extends Group {
 
     public void setNameP(String nameP) {
         this.nameP = nameP;
+    }
+
+    @Override
+    public String toString() {
+        return "SandActor{" +
+                "nameP='" + nameP + '\'' +
+                '}';
     }
 }
