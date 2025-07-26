@@ -25,7 +25,7 @@ public class SandActor extends Group {
         setSize(SBConstant.blockSize,SBConstant.blockSize);
         image = new Image(Asset.getAsset().getTexture("white.png"));
         addActor(image);
-        image.setSize(SBConstant.blockSize,SBConstant.blockSize);
+        image.setSize(SBConstant.blockSize-2,SBConstant.blockSize-2);
     }
 
     public void getUpPos() {
